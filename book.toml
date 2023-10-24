@@ -1,0 +1,18 @@
+[book]
+title = "RustBLR"
+authors = ["Dhruvin Gandhi"]
+description = "Slides and links of talks I presented at Rust Bangalore."
+language = "en"
+multilingual = false
+
+[rust]
+edition = "2021"
+
+[output.html]
+git-repository-url = "https://git.dhruvin.dev/talks/rustblr"
+git-repository-icon = "fa-code-fork"
+site-url = "/rustblr/"
+
+[output.html.playground]
+editable = true
+line-numbers = true

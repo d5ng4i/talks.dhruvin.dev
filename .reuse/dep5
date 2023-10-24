@@ -1,0 +1,12 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: RustBLR
+Upstream-Contact: Dhruvin Gandhi <contact@dhruvin.dev>
+Source: https://talks.dhruvin.dev/rustblr
+
+Files: .editorconfig .gitignore book.toml
+Copyright: 2023 Dhruvin Gandhi <contact@dhruvin.dev>
+License: Apache-2.0 or MIT
+
+Files: src/*.md src/*.svg
+Copyright: 2023 Dhruvin Gandhi <contact@dhruvin.dev>
+License: CC-BY-SA-4.0
