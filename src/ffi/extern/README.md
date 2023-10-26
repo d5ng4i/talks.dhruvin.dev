@@ -18,4 +18,4 @@ extern "C" {
 ## References
 
 - [https://doc.rust-lang.org/reference/items/external-blocks.html#external-blocks](https://doc.rust-lang.org/reference/items/external-blocks.html#external-blocks)
-- [https://doc.rust-lang.org/rust-by-example/std_misc/ffi.html](https://doc.rust-lang.org/rust-by-example/std_misc/ffi.html)
+- [https://doc.rust-lang.org/rust-by-example/std\_misc/ffi.html](https://doc.rust-lang.org/rust-by-example/std_misc/ffi.html)
