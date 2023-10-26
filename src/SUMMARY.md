@@ -10,7 +10,7 @@
     - [Statics](ffi/extern/statics.md)
     - [Application Binary Interface](ffi/extern/abi.md)
     - [Variadic Functions](ffi/extern/variadic.md)
-    - [Link]()
+    - [Link](ffi/extern/link.md)
 
 ---
 

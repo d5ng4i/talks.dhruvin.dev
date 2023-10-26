@@ -1,8 +1,47 @@
 # Link
 
-- Attribute that controls the behaviour of a external block
+- Attributes that control the behaviour of a external block
+  - `link`
+    - `name`: required if `kind` is specified
+    - `kind`
+      - `dylib`: default
+      - `static`
+      - `framework`: macos
+      - `raw-dylib`: windows
+    - `modifiers`
+      - `+bundle`: `static`
+      - `-whole-archive`: `static`
+      - `-verbatim`
+    - `wasm_import_module`: `env`
+    - `import_name_type`: windows
+  - `link_name`
+  - `link_ordinal`: windows
 
-TODO
+## Examples
+
+```rust,editable
+//! SPDX-License-Identifier: Apache-2.0 or MIT
+use std::ffi::*;
+
+#[link(name = "c", kind = "dylib")]
+extern "C" {
+    #[link_name = "puts"]
+    fn log(s: *const c_char);
+}
+
+#[cfg(target_family = "wasm")]
+#[link(wasm_import_module = "foo")]
+extern {
+    // ...
+}
+
+fn main() {
+    let s = CString::new("Hello, RustBLR!").unwrap();
+    unsafe {
+        log(s.as_ptr());
+    }
+}
+```
 
 ## References
 
