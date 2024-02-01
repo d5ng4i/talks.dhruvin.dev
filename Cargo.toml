@@ -1,0 +1,6 @@
+[package]
+name = "rustblr"
+edition = "2021"
+
+[dependencies]
+bindgen = "0.69.2"
