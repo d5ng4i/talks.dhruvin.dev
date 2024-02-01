@@ -1,14 +1,17 @@
+CARGO := cargo
 MDBOOK := mdbook
-RSYNC := openrsync
+RSYNC := rsync
 
+CARGOBUILDFLAGS :=
 MDBOOKBUILDFLAGS :=
-MDBOOKTESTFLAGS :=
+MDBOOKTESTFLAGS := -L target/debug/deps
 RSYNCFLAGS := --rsync-path=openrsync -av --delete . talks.dhruvin.dev:/var/www/htdocs/talks.dhruvin.dev/rustblr
 
 all:
 	$(MDBOOK) build $(MDBOOKBUILDFLAGS)
 
 check:
+	$(CARGO) build $(CARGOBUILDFLAGS)
 	$(MDBOOK) test $(MDBOOKTESTFLAGS)
 
 publish: all check
