@@ -9,7 +9,6 @@
 ## Examples
 
 ```rust,noplayground
-//! SPDX-License-Identifier: Apache-2.0 or MIT
 extern "C" {
     // functions and statics go here
 }

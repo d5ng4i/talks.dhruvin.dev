@@ -20,3 +20,8 @@ the subject.
 [mdbook](https://rust-lang.github.io/mdBook/) was chosen as it allows syntax highlighting, editable
 examples that run on rust playground, and testing if the examples compile and/or run correctly. It
 also allows me to add corrections or extensions later.
+
+## Licenses
+
+- Code: MIT or Apache-2.0
+- Prose: CC-BY-SA-4.0

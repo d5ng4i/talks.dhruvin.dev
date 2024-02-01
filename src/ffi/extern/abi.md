@@ -23,7 +23,6 @@ Non-exhaustive list:
 ## Examples
 
 ```rust,noplayground
-//! SPDX-License-Identifier: Apache-2.0 or MIT
 // Same as extern "C" { }
 extern { }
 ```

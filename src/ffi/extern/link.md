@@ -20,7 +20,6 @@
 ## Examples
 
 ```rust,editable
-//! SPDX-License-Identifier: Apache-2.0 or MIT
 use std::ffi::*;
 
 #[link(name = "c", kind = "dylib")]
