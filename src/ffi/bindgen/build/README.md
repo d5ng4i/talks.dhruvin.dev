@@ -6,7 +6,6 @@
   - `#include`
   - replacements
 - `build.rs`
-  - `cargo:rerun-if-changed=wrapper.h`
   - `.parse_callbacks(Box::new(bindgen::CargoCallbacks))`
 - `include!(concat!(env!("OUT_DIR"), "/bindings.rs"))`
 - `#![allow(<lint>)]`

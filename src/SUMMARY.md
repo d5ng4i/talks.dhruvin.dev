@@ -16,9 +16,8 @@
       - [Header](ffi/bindgen/build/header.md)
       - [Filter](ffi/bindgen/build/filter.md)
       - [Derive](ffi/bindgen/build/derive.md)
-      - [Callbacks]()
-      - [Include]()
-      - [Lints]()
+      - [Callbacks](ffi/bindgen/build/callbacks.md)
+      - [Include](ffi/bindgen/build/include.md)
 
 ---
 
