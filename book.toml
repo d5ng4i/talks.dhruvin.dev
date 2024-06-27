@@ -9,7 +9,7 @@ multilingual = false
 edition = "2021"
 
 [output.html]
-git-repository-url = "https://git.dhruvin.dev/?action=summary&path=rustblr"
+git-repository-url = "https://codeberg.org/dhruvin/rustblr"
 git-repository-icon = "fa-code-fork"
 site-url = "/rustblr/"
 
