@@ -13,12 +13,14 @@ jobs:
       - id: checkout
         uses: https://code.forgejo.org/actions/checkout@v4
       - id: build
-        run: mdbook build
+        run: |
+          cd rustblr
+          mdbook build
       - id: upload
         uses: https://code.forgejo.org/forgejo/upload-artifact@v4
         with:
-          name: book
-          path: book
+          name: rustblr
+          path: rustblr/book
   publish:
     needs: build
     runs-on: docker
@@ -26,26 +28,21 @@ jobs:
       image: alpine:3.20
     steps:
       - id: apk
-        run: apk add git nodejs-lts openssh-client
+        run: apk add git nodejs-lts
       - id: checkout
         uses: https://code.forgejo.org/actions/checkout@v4
         with:
-          repository: dhruvin/talks
           ref: pages
-          ssh-key: ${{ secrets.TALKS }}
-          ssh-known-hosts: codeberg.org ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIVIC02vnjFyL+I4RHfvIGNtOgJMe769VTF1VR4EB3ZB
-          path: talks
-          sparse-checkout: !rustblr
+          sparse-checkout: .
       - id: download
         uses: https://code.forgejo.org/forgejo/download-artifact@v4
         with:
-          name: book
-          path: talks/rustblr
+          name: rustblr
+          path: rustblr
       - id: publish
         run: |
-          cd talks
           git config user.name "Dhruvin Gandhi"
           git config user.email "contact@dhruvin.dev"
-          git add -A
+          git add --sparse -A
           git commit --allow-empty -m "Publish ${{ github.SHA }}"
           git push
