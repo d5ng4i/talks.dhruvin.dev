@@ -1,6 +1,6 @@
 # Summary
 
-[Introduction](README.md)
+[Introduction](./README.md)
 
 # Talks
 
@@ -18,7 +18,16 @@
       - [Derive](ffi/bindgen/build/derive.md)
       - [Callbacks](ffi/bindgen/build/callbacks.md)
       - [Include](ffi/bindgen/build/include.md)
-
+- [Rust Error](err/README.md)
+  - [Primer](err/primer/README.md)
+    - [Debug](err/primer/debug.md)
+    - [Display](err/primer/display.md)
+    - [Error](err/primer/error.md)
+  - [thiserror](err/thiserror/README.md)
+    - [error](err/thiserror/error.md)
+    - [source](err/thiserror/source.md)
+    - [from](err/thiserror/from.md)
+    - [transparent](err/thiserror/transparent.md)
 ---
 
 [About](./about.md)
