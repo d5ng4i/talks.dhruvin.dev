@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light" dir="ltr">
+<html lang="en" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="Slides and links of talks I presented at Rust Bangalore.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -31,15 +31,17 @@
 
         <!-- Custom theme stylesheets -->
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
+
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
-
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -61,19 +63,16 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
             var sidebar = null;
             var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
@@ -83,45 +82,25 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Talks</li><li class="chapter-item expanded "><a href="ffi/index.html"><strong aria-hidden="true">1.</strong> Rust FFI</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ffi/extern/index.html"><strong aria-hidden="true">1.1.</strong> External Blocks</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ffi/extern/functions.html"><strong aria-hidden="true">1.1.1.</strong> Functions</a></li><li class="chapter-item expanded "><a href="ffi/extern/statics.html"><strong aria-hidden="true">1.1.2.</strong> Statics</a></li><li class="chapter-item expanded "><a href="ffi/extern/abi.html"><strong aria-hidden="true">1.1.3.</strong> Application Binary Interface</a></li><li class="chapter-item expanded "><a href="ffi/extern/variadic.html"><strong aria-hidden="true">1.1.4.</strong> Variadic Functions</a></li><li class="chapter-item expanded "><a href="ffi/extern/link.html"><strong aria-hidden="true">1.1.5.</strong> Link</a></li></ol></li><li class="chapter-item expanded "><a href="ffi/bindgen/index.html"><strong aria-hidden="true">1.2.</strong> Bindgen</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ffi/bindgen/build/index.html"><strong aria-hidden="true">1.2.1.</strong> Build Script</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ffi/bindgen/build/header.html"><strong aria-hidden="true">1.2.1.1.</strong> Header</a></li><li class="chapter-item expanded "><a href="ffi/bindgen/build/filter.html"><strong aria-hidden="true">1.2.1.2.</strong> Filter</a></li><li class="chapter-item expanded "><a href="ffi/bindgen/build/derive.html"><strong aria-hidden="true">1.2.1.3.</strong> Derive</a></li><li class="chapter-item expanded "><a href="ffi/bindgen/build/callbacks.html"><strong aria-hidden="true">1.2.1.4.</strong> Callbacks</a></li><li class="chapter-item expanded "><a href="ffi/bindgen/build/include.html"><strong aria-hidden="true">1.2.1.5.</strong> Include</a></li><li class="spacer"></li></ol></li></ol></li></ol></li><li class="chapter-item expanded "><a href="about.html">About</a></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -630,6 +609,186 @@ include!(concat!(env!("OUT_DIR"), "/bindings.rs"));</code></pre>
 <li><a href="https://doc.rust-lang.org/std/macro.env.html"><code>env!</code></a></li>
 <li><a href="https://doc.rust-lang.org/cargo/reference/environment-variables.html#environment-variables-cargo-sets-for-build-scripts"><code>OUT_DIR</code></a></li>
 <li><a href="https://github.com/rust-lang/rust/issues/75075">There is no cross-platform way to use include_*!</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust-error"><a class="header" href="#rust-error">Rust Error</a></h1>
+<h2 id="what-to-expect-1"><a class="header" href="#what-to-expect-1">What to expect</a></h2>
+<p>The talk-series explores various mechanisms for error handling in Rust.</p>
+<p>The talk-series assumes familiarity with Rust traits, and derive macros. It is intended for Rust
+library and application authors.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="core"><a class="header" href="#core">core</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="corefmtdebug"><a class="header" href="#corefmtdebug"><code>core::fmt::Debug</code></a></h1>
+<pre><code class="language-rust ignore">pub trait Debug {
+    // Required method
+    fn fmt(&amp;self, f: &amp;mut Formatter&lt;'_&gt;) -&gt; Result;
+}</code></pre>
+<ul>
+<li>format trait for <code>{:?}</code> and <code>{:#?}</code></li>
+<li>should format the output in a programmer-facing, debugging context</li>
+<li>prefer <code>#[derive(Debug)]</code> over <code>impl Debug</code></li>
+<li><code>{var:?}</code> prints inline, <code>{var:#?}</code> prints pretty</li>
+</ul>
+<h2 id="examples-12"><a class="header" href="#examples-12">Examples</a></h2>
+<h3 id="derivedebug"><a class="header" href="#derivedebug"><code>#[derive(Debug)]</code></a></h3>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(Debug)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+let origin = Point { x: 0, y: 0 };
+
+assert_eq!(
+    format!("The origin is: {origin:?}"),
+    "The origin is: Point { x: 0, y: 0 }",
+);
+
+assert_eq!(format!("The origin is: {origin:#?}"), "The origin is: Point {
+    x: 0,
+    y: 0,
+}");
+<span class="boring">}</span></code></pre></pre>
+<h3 id="impl-debug"><a class="header" href="#impl-debug"><code>impl Debug</code></a></h3>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fmt;
+
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl fmt::Debug for Point {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        f.debug_struct("Point")
+            .field("x", &amp;self.x)
+            .field("y", &amp;self.y)
+            .finish()
+    }
+}
+
+let origin = Point { x: 0, y: 0 };
+
+assert_eq!(
+    format!("The origin is: {origin:?}"),
+    "The origin is: Point { x: 0, y: 0 }",
+);
+
+assert_eq!(format!("The origin is: {origin:#?}"), "The origin is: Point {
+    x: 0,
+    y: 0,
+}");
+<span class="boring">}</span></code></pre></pre>
+<h2 id="caveats-2"><a class="header" href="#caveats-2">Caveats</a></h2>
+<ul>
+<li>unstable output</li>
+<li>infallible formatting</li>
+<li>fallible writing</li>
+</ul>
+<h2 id="references-13"><a class="header" href="#references-13">References</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/stable/core/fmt/trait.Debug.html">trait:core::fmt::Debug</a></li>
+<li><a href="https://doc.rust-lang.org/stable/core/fmt/derive.Debug.html">derive:core::fmt::Debug</a></li>
+<li><a href="https://doc.rust-lang.org/stable/core/fmt/struct.Formatter.html">struct:core::fmt::Formatter</a></li>
+<li><a href="https://doc.rust-lang.org/stable/core/fmt/derive.Debug.html?search=fn%3Acore%3A%3Afmt%3A%3AFormatter%3A%3Adebug">fn:core::fmt::Formatter::debug</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="corefmtdisplay"><a class="header" href="#corefmtdisplay"><code>core::fmt::Display</code></a></h1>
+<pre><code class="language-rust ignore">pub trait Display {
+    // Required method
+    fn fmt(&amp;self, f: &amp;mut Formatter&lt;'_&gt;) -&gt; Result;
+}</code></pre>
+<ul>
+<li>format trait for <code>{}</code></li>
+<li>user-facing output, cannot derive</li>
+<li>implements <code>ToString</code>, prefer <code>Display</code></li>
+<li>internationalization, only one impl</li>
+</ul>
+<h2 id="examples-13"><a class="header" href="#examples-13">Examples</a></h2>
+<h3 id="impl-display"><a class="header" href="#impl-display"><code>impl Display</code></a></h3>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fmt;
+
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl fmt::Display for Point {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
+    }
+}
+
+let origin = Point { x: 0, y: 0 };
+
+assert_eq!(format!("The origin is: {origin}"), "The origin is: (0, 0)");
+<span class="boring">}</span></code></pre></pre>
+<h2 id="references-14"><a class="header" href="#references-14">References</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/stable/core/fmt/trait.Display.html">trait:core::fmt::Display</a></li>
+<li><a href="https://doc.rust-lang.org/stable/alloc/string/trait.ToString.html">trait:alloc::string::ToString</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="coreerrorerror"><a class="header" href="#coreerrorerror"><code>core::error::Error</code></a></h1>
+<pre><code class="language-rust ignore">pub trait Error: Debug + Display {
+    // Provided methods
+    fn source(&amp;self) -&gt; Option&lt;&amp;(dyn Error + 'static)&gt; { ... }
+    fn description(&amp;self) -&gt; &amp;str { ... }
+    fn cause(&amp;self) -&gt; Option&lt;&amp;dyn Error&gt; { ... }
+    fn provide&lt;'a&gt;(&amp;'a self, request: &amp;mut Request&lt;'a&gt;) { ... }
+}</code></pre>
+<pre><code class="language-rust ignore">impl dyn Error + 'static {
+    pub fn is&lt;T: Error + 'static&gt;(&amp;self) -&gt; bool { ... }
+    pub fn downcast_ref&lt;T: Error + 'static&gt;(&amp;self) -&gt; Option&lt;&amp;T&gt; { ... }
+    pub fn downcast_mut&lt;T: Error + 'static&gt;(&amp;mut self) -&gt; Option&lt;&amp;mut T&gt; { ... }
+}</code></pre>
+<ul>
+<li>concise lowercase sentences without trailing punctuation</li>
+<li><code>Error::source</code> when errors cross “abstraction boundaries”</li>
+</ul>
+<h2 id="examples-14"><a class="header" href="#examples-14">Examples</a></h2>
+<h3 id="errorsource"><a class="header" href="#errorsource"><code>Error::source</code></a></h3>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::{fmt, error::Error};
+
+#[derive(Debug)]
+struct Parent{
+    inner: Child,
+}
+
+impl fmt::Display for Parent {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        write!(f, "Parent")
+    }
+}
+
+impl Error for Parent {
+    fn source(&amp;self) -&gt; Option&lt;&amp;(dyn Error + 'static)&gt; {
+        Some(&amp;self.inner)
+    }
+}
+
+#[derive(Debug)]
+struct Child;
+
+impl fmt::Display for Child {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+        write!(f, "Child")
+    }
+}
+
+impl Error for Child {}
+
+let error = Parent { inner: Child };
+
+assert!(error.source().unwrap().is::&lt;Child&gt;());
+<span class="boring">}</span></code></pre></pre>
+<h2 id="references-15"><a class="header" href="#references-15">References</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/stable/core/error/trait.Error.html">trait:core::error::Error</a></li>
+<li><a href="https://doc.rust-lang.org/stable/core/error/trait.Error.html#impl-dyn+Error">impl dyn Error + 'static</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="dhruvin-gandhi"><a class="header" href="#dhruvin-gandhi">Dhruvin Gandhi</a></h1>
 <p><img src="./about.svg" alt="QR code" /></p>
