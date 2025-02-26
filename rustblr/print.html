@@ -615,7 +615,17 @@ include!(concat!(env!("OUT_DIR"), "/bindings.rs"));</code></pre>
 <p>The talk-series explores various mechanisms for error handling in Rust.</p>
 <p>The talk-series assumes familiarity with Rust traits, and derive macros. It is intended for Rust
 library and application authors.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="core"><a class="header" href="#core">core</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="primer"><a class="header" href="#primer">Primer</a></h1>
+<h2 id="traits"><a class="header" href="#traits">Traits</a></h2>
+<ul>
+<li>Debug</li>
+<li>Display</li>
+<li>Error</li>
+</ul>
+<h2 id="derive-macros"><a class="header" href="#derive-macros">Derive Macros</a></h2>
+<ul>
+<li>Debug</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="corefmtdebug"><a class="header" href="#corefmtdebug"><code>core::fmt::Debug</code></a></h1>
 <pre><code class="language-rust ignore">pub trait Debug {
     // Required method
@@ -734,9 +744,6 @@ assert_eq!(format!("The origin is: {origin}"), "The origin is: (0, 0)");
 <pre><code class="language-rust ignore">pub trait Error: Debug + Display {
     // Provided methods
     fn source(&amp;self) -&gt; Option&lt;&amp;(dyn Error + 'static)&gt; { ... }
-    fn description(&amp;self) -&gt; &amp;str { ... }
-    fn cause(&amp;self) -&gt; Option&lt;&amp;dyn Error&gt; { ... }
-    fn provide&lt;'a&gt;(&amp;'a self, request: &amp;mut Request&lt;'a&gt;) { ... }
 }</code></pre>
 <pre><code class="language-rust ignore">impl dyn Error + 'static {
     pub fn is&lt;T: Error + 'static&gt;(&amp;self) -&gt; bool { ... }
@@ -749,46 +756,168 @@ assert_eq!(format!("The origin is: {origin}"), "The origin is: (0, 0)");
 </ul>
 <h2 id="examples-14"><a class="header" href="#examples-14">Examples</a></h2>
 <h3 id="errorsource"><a class="header" href="#errorsource"><code>Error::source</code></a></h3>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use std::{fmt, error::Error};
+<pre><pre class="playground"><code class="language-rust edition2021">use std::{error::Error, fmt};
 
 #[derive(Debug)]
-struct Parent{
-    inner: Child,
+struct SuperError {
+    source: SuperErrorSideKick,
 }
 
-impl fmt::Display for Parent {
+impl fmt::Display for SuperError {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
-        write!(f, "Parent")
+        write!(f, "SuperError is here!")
     }
 }
 
-impl Error for Parent {
+impl Error for SuperError {
     fn source(&amp;self) -&gt; Option&lt;&amp;(dyn Error + 'static)&gt; {
-        Some(&amp;self.inner)
+        Some(&amp;self.source)
     }
 }
 
 #[derive(Debug)]
-struct Child;
+struct SuperErrorSideKick;
 
-impl fmt::Display for Child {
+impl fmt::Display for SuperErrorSideKick {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
-        write!(f, "Child")
+        write!(f, "SuperErrorSideKick is here!")
     }
 }
 
-impl Error for Child {}
+impl Error for SuperErrorSideKick {}
 
-let error = Parent { inner: Child };
+fn get_super_error() -&gt; Result&lt;(), SuperError&gt; {
+    Err(SuperError { source: SuperErrorSideKick })
+}
 
-assert!(error.source().unwrap().is::&lt;Child&gt;());
-<span class="boring">}</span></code></pre></pre>
+fn main() {
+    match get_super_error() {
+        Err(e) =&gt; {
+            println!("Error: {e}");
+            println!("Caused by: {}", e.source().unwrap());
+        }
+        _ =&gt; println!("No error"),
+    }
+}</code></pre></pre>
 <h2 id="references-15"><a class="header" href="#references-15">References</a></h2>
 <ul>
 <li><a href="https://doc.rust-lang.org/stable/core/error/trait.Error.html">trait:core::error::Error</a></li>
 <li><a href="https://doc.rust-lang.org/stable/core/error/trait.Error.html#impl-dyn+Error">impl dyn Error + 'static</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="thiserror"><a class="header" href="#thiserror">thiserror</a></h1>
+<h2 id="derive-macros-1"><a class="header" href="#derive-macros-1">Derive Macros</a></h2>
+<ul>
+<li><code>Error</code></li>
+</ul>
+<h2 id="attributes"><a class="header" href="#attributes">Attributes</a></h2>
+<ul>
+<li><code>#[error("...")]</code></li>
+<li><code>#[source]</code></li>
+<li><code>#[from]</code></li>
+<li><code>#[error(transparent)]</code></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="error"><a class="header" href="#error"><code>#[error("...")]</code></a></h1>
+<ul>
+<li>inside format string:
+<ul>
+<li><code>#[error("{var}")]</code></li>
+<li><code>#[error("{0}")]</code></li>
+</ul>
+</li>
+<li>as format string arg:
+<ul>
+<li><code>#[error("{}", .var)]</code></li>
+<li><code>#[error("{}", .0)]</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="examples-15"><a class="header" href="#examples-15">Examples</a></h2>
+<h3 id="arguments"><a class="header" href="#arguments">Arguments</a></h3>
+<pre><code class="language-rust ignore editable">use thiserror::Error;
+
+#[derive(Error, Debug)]
+pub enum Error {
+    #[error("first letter must be lowercase but was {:?}", first_char(.0))]
+    WrongCase(String),
+    #[error("invalid index {idx}, expected at least {} and at most {}", .limits.lo, .limits.hi)]
+    OutOfBounds { idx: usize, limits: Limits },
+}</code></pre>
+<h2 id="references-16"><a class="header" href="#references-16">References</a></h2>
+<ul>
+<li><a href="https://docs.rs/thiserror/latest/thiserror/#details">thiserror</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="source"><a class="header" href="#source"><code>#[source]</code></a></h1>
+<ul>
+<li>to identify underlying cause</li>
+<li>field marked <code>#[source]</code> or is named <code>source</code></li>
+</ul>
+<h2 id="examples-16"><a class="header" href="#examples-16">Examples</a></h2>
+<h3 id="source-1"><a class="header" href="#source-1">Source</a></h3>
+<pre><code class="language-rust editable ignore">#[derive(Error, Debug)]
+pub struct MyError {
+    msg: String,
+    #[source]  // optional if field name is `source`
+    source: anyhow::Error,
+}</code></pre>
+<h2 id="caveats-3"><a class="header" href="#caveats-3">Caveats</a></h2>
+<ul>
+<li>source must implement <code>Error</code> or <code>Deref&lt;Target = dyn Error&gt;</code></li>
+</ul>
+<h2 id="references-17"><a class="header" href="#references-17">References</a></h2>
+<ul>
+<li><a href="https://docs.rs/thiserror/latest/thiserror/#details">thiserror</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="from"><a class="header" href="#from"><code>#[from]</code></a></h1>
+<ul>
+<li><code>impl From</code> generated for each variant that contains a <code>#[from]</code></li>
+<li><code>#[from]</code> implies <code>#[source]</code></li>
+</ul>
+<h2 id="examples-17"><a class="header" href="#examples-17">Examples</a></h2>
+<h3 id="from-1"><a class="header" href="#from-1">From</a></h3>
+<pre><code class="language-rust editable ignore">#[derive(Error, Debug)]
+pub enum MyError {
+    Io(#[from] io::Error),
+    Glob(#[from] globset::Error),
+}</code></pre>
+<h2 id="caveats-4"><a class="header" href="#caveats-4">Caveats</a></h2>
+<ul>
+<li>variant with <code>#[from]</code> must not contain any other fields beyond the source error</li>
+</ul>
+<h2 id="references-18"><a class="header" href="#references-18">References</a></h2>
+<ul>
+<li><a href="https://docs.rs/thiserror/latest/thiserror/#details">thiserror</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="errortransparent"><a class="header" href="#errortransparent"><code>#[error(transparent)]</code></a></h1>
+<ul>
+<li>forwards the <code>Error::source</code> and <code>Display::fmt</code> to <code>#[source]</code></li>
+</ul>
+<h2 id="examples-18"><a class="header" href="#examples-18">Examples</a></h2>
+<h3 id="anything-else"><a class="header" href="#anything-else">Anything else</a></h3>
+<pre><code class="language-rust editable ignore">#[derive(Error, Debug)]
+pub enum MyError {
+    ...
+
+    #[error(transparent)]
+    Other(#[from] anyhow::Error),  // source and Display delegate to anyhow::Error
+}</code></pre>
+<h3 id="hide-implementation-detail"><a class="header" href="#hide-implementation-detail">Hide implementation detail</a></h3>
+<pre><code class="language-rust editable ignore">// PublicError is public, but opaque and easy to keep compatible.
+#[derive(Error, Debug)]
+#[error(transparent)]
+pub struct PublicError(#[from] ErrorRepr);
+
+impl PublicError {
+    // Accessors for anything we do want to expose publicly.
+}
+
+// Private and free to change across minor version of the crate.
+#[derive(Error, Debug)]
+enum ErrorRepr {
+    ...
+}</code></pre>
+<h2 id="references-19"><a class="header" href="#references-19">References</a></h2>
+<ul>
+<li><a href="https://docs.rs/thiserror/latest/thiserror/#details">thiserror</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="dhruvin-gandhi"><a class="header" href="#dhruvin-gandhi">Dhruvin Gandhi</a></h1>
 <p><img src="./about.svg" alt="QR code" /></p>
