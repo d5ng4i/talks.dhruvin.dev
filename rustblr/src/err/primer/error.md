@@ -22,7 +22,7 @@ impl dyn Error + 'static {
 
 ### `Error::source`
 
-```rust
+```rust,editable
 use std::{error::Error, fmt};
 
 #[derive(Debug)]

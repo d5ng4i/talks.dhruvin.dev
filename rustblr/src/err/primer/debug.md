@@ -16,7 +16,7 @@ pub trait Debug {
 
 ### `#[derive(Debug)]`
 
-```rust
+```rust,editable
 #[derive(Debug)]
 struct Point {
     x: i32,
@@ -38,7 +38,7 @@ assert_eq!(format!("The origin is: {origin:#?}"), "The origin is: Point {
 
 ### `impl Debug`
 
-```rust
+```rust,editable
 use std::fmt;
 
 struct Point {

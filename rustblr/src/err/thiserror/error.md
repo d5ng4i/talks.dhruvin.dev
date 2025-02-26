@@ -11,7 +11,7 @@
 
 ### Arguments
 
-```rust,ignore,editable
+```rust,editable,ignore
 use thiserror::Error;
 
 #[derive(Error, Debug)]

@@ -16,7 +16,7 @@ pub trait Display {
 
 ### `impl Display`
 
-```rust
+```rust,editable
 use std::fmt;
 
 struct Point {
