@@ -168,9 +168,7 @@
 </ul>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <h3 id="derivedebug"><a class="header" href="#derivedebug"><code>#[derive(Debug)]</code></a></h3>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust editable edition2021">#[derive(Debug)]
 struct Point {
     x: i32,
     y: i32,
@@ -186,12 +184,9 @@ assert_eq!(
 assert_eq!(format!("The origin is: {origin:#?}"), "The origin is: Point {
     x: 0,
     y: 0,
-}");
-<span class="boring">}</span></code></pre></pre>
+}");</code></pre></pre>
 <h3 id="impl-debug"><a class="header" href="#impl-debug"><code>impl Debug</code></a></h3>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use std::fmt;
+<pre><pre class="playground"><code class="language-rust editable edition2021">use std::fmt;
 
 struct Point {
     x: i32,
@@ -217,8 +212,7 @@ assert_eq!(
 assert_eq!(format!("The origin is: {origin:#?}"), "The origin is: Point {
     x: 0,
     y: 0,
-}");
-<span class="boring">}</span></code></pre></pre>
+}");</code></pre></pre>
 <h2 id="caveats"><a class="header" href="#caveats">Caveats</a></h2>
 <ul>
 <li>unstable output</li>

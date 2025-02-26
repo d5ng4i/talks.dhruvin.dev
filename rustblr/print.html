@@ -639,9 +639,7 @@ library and application authors.</p>
 </ul>
 <h2 id="examples-12"><a class="header" href="#examples-12">Examples</a></h2>
 <h3 id="derivedebug"><a class="header" href="#derivedebug"><code>#[derive(Debug)]</code></a></h3>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust editable edition2021">#[derive(Debug)]
 struct Point {
     x: i32,
     y: i32,
@@ -657,12 +655,9 @@ assert_eq!(
 assert_eq!(format!("The origin is: {origin:#?}"), "The origin is: Point {
     x: 0,
     y: 0,
-}");
-<span class="boring">}</span></code></pre></pre>
+}");</code></pre></pre>
 <h3 id="impl-debug"><a class="header" href="#impl-debug"><code>impl Debug</code></a></h3>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use std::fmt;
+<pre><pre class="playground"><code class="language-rust editable edition2021">use std::fmt;
 
 struct Point {
     x: i32,
@@ -688,8 +683,7 @@ assert_eq!(
 assert_eq!(format!("The origin is: {origin:#?}"), "The origin is: Point {
     x: 0,
     y: 0,
-}");
-<span class="boring">}</span></code></pre></pre>
+}");</code></pre></pre>
 <h2 id="caveats-2"><a class="header" href="#caveats-2">Caveats</a></h2>
 <ul>
 <li>unstable output</li>
@@ -716,9 +710,7 @@ assert_eq!(format!("The origin is: {origin:#?}"), "The origin is: Point {
 </ul>
 <h2 id="examples-13"><a class="header" href="#examples-13">Examples</a></h2>
 <h3 id="impl-display"><a class="header" href="#impl-display"><code>impl Display</code></a></h3>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use std::fmt;
+<pre><pre class="playground"><code class="language-rust editable edition2021">use std::fmt;
 
 struct Point {
     x: i32,
@@ -733,8 +725,7 @@ impl fmt::Display for Point {
 
 let origin = Point { x: 0, y: 0 };
 
-assert_eq!(format!("The origin is: {origin}"), "The origin is: (0, 0)");
-<span class="boring">}</span></code></pre></pre>
+assert_eq!(format!("The origin is: {origin}"), "The origin is: (0, 0)");</code></pre></pre>
 <h2 id="references-14"><a class="header" href="#references-14">References</a></h2>
 <ul>
 <li><a href="https://doc.rust-lang.org/stable/core/fmt/trait.Display.html">trait:core::fmt::Display</a></li>
@@ -756,7 +747,7 @@ assert_eq!(format!("The origin is: {origin}"), "The origin is: (0, 0)");
 </ul>
 <h2 id="examples-14"><a class="header" href="#examples-14">Examples</a></h2>
 <h3 id="errorsource"><a class="header" href="#errorsource"><code>Error::source</code></a></h3>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::{error::Error, fmt};
+<pre><pre class="playground"><code class="language-rust editable edition2021">use std::{error::Error, fmt};
 
 #[derive(Debug)]
 struct SuperError {
@@ -833,7 +824,7 @@ fn main() {
 </ul>
 <h2 id="examples-15"><a class="header" href="#examples-15">Examples</a></h2>
 <h3 id="arguments"><a class="header" href="#arguments">Arguments</a></h3>
-<pre><code class="language-rust ignore editable">use thiserror::Error;
+<pre><code class="language-rust editable ignore">use thiserror::Error;
 
 #[derive(Error, Debug)]
 pub enum Error {
