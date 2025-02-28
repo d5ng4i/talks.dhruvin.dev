@@ -2,4 +2,4 @@
 
 ![QR code](./about.svg)
 
-[https://dhruvin.dev](https://dhruvin.dev)
+contact@dhru.vin
